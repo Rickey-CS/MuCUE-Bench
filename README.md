@@ -54,7 +54,7 @@ total samples of all: 1782077
 
 units: Acc%
 
-|                 | gemini | Qwen2.5-Omni-7B | Kimi-Audio-7B-Instruct | Qwen2-Audio-7B-Instruct | ours  |
+|                 | gemini | Qwen2.5-Omni-7B | Kimi-Audio-7B-Instruct | Qwen2-Audio-7B-Instruct | MuFun(ours)  |
 |-----------------|--------|-----------------|------------------------|-------------------------|-------|
 | ly_m163         | 88.2   | 87.4            | 87.0                   | 60.0                    | 90.8  |
 | ins_cls         | 26.0   | 66.8            | 79.4                   | 39.8                    | 91.2  |
