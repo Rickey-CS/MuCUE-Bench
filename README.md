@@ -1,5 +1,8 @@
 # MuCUE-Bench
 
+![MuCUE](./MuCUE.png)
+![Data Distribution](./data_analyse.png)
+
 ## Overview
 
 | tasks                     | dataset                                                  | duration_mean |
