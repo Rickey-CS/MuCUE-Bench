@@ -1,0 +1,595 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>MuCUE Bench - Music Comprehensive Understanding Evaluation</title>
+  <script src="https://unpkg.com/@tailwindcss/browser@4"></script>
+  <link href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.7.2/css/all.min.css" rel="stylesheet">
+  <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
+  <style type="text/tailwindcss">
+    @theme {
+      --color-primary: #4361ee;
+      --color-secondary: #3f37c9;
+      --color-accent: #4895ef;
+      --color-dark: #2b2d42;
+      --font-inter: 'Inter', sans-serif;
+    }
+    
+    @utility smooth-scroll {
+      scroll-behavior: smooth;
+    }
+    
+    @utility card-hover {
+      @apply transition-all duration-300 hover:shadow-xl hover:-translate-y-1;
+    }
+    
+    body {
+      font-family: var(--font-inter);
+      background-color: #f5f7fa;
+    }
+  </style>
+</head>
+<body class="smooth-scroll">
+  <!-- 导航栏 -->
+  <nav class="bg-white shadow-md sticky top-0 z-50">
+    <div class="container mx-auto px-4 py-3 flex justify-between items-center">
+      <a href="#" class="text-2xl font-bold text-primary">MuCUE</a>
+      <div class="hidden md:flex space-x-6">
+        <a href="#intro" class="hover:text-primary transition-colors">Dataset Introduction</a>
+        <a href="#tasks" class="hover:text-primary transition-colors">Task Types</a>
+        <a href="#evaluation" class="hover:text-primary transition-colors">Evaluation Criteria</a>
+        <a href="#leaderboard" class="hover:text-primary transition-colors">Leaderboard</a>
+        <a href="#resources" class="hover:text-primary transition-colors">Resource Downloads</a>
+      </div>
+      <button class="md:hidden text-dark" id="menu-toggle">
+        <i class="fas fa-bars text-2xl"></i>
+      </button>
+    </div>
+    <!-- 移动端菜单 -->
+    <div class="md:hidden hidden bg-white absolute w-full border-t" id="mobile-menu">
+      <div class="container mx-auto px-4 py-2 flex flex-col space-y-3">
+        <a href="#intro" class="py-2 hover:text-primary transition-colors">Dataset Introduction</a>
+        <a href="#tasks" class="py-2 hover:text-primary transition-colors">Task Types</a>
+        <a href="#evaluation" class="py-2 hover:text-primary transition-colors">Evaluation Criteria</a>
+        <a href="#leaderboard" class="py-2 hover:text-primary transition-colors">Leaderboard</a>
+        <a href="#resources" class="py-2 hover:text-primary transition-colors">Resource Downloads</a>
+      </div>
+    </div>
+  </nav>
+
+  <!-- 首页概览 -->
+  <section id="intro" class="py-16 bg-gradient-to-b from-white to-blue-50">
+    <div class="container mx-auto px-4">
+      <div class="text-center max-w-3xl mx-auto">
+        <h1 class="text-4xl md:text-5xl font-bold text-dark mb-4">MuCUE Bench</h1>
+        <p class="text-xl text-gray-600 mb-8">MuCUE Bench - Music Comprehensive Understanding Evaluation</p>
+        <div class="flex flex-wrap justify-center gap-4 mb-12">
+          <a href="#" class="bg-primary text-white px-6 py-3 rounded-lg font-medium hover:bg-primary/90 transition-colors flex items-center">
+            <i class="fas fa-file-pdf mr-2"></i> Paper
+          </a>
+          <a href="https://g.hz.netease.com/jiangyi09/mu_eval" class="bg-secondary text-white px-6 py-3 rounded-lg font-medium hover:bg-secondary/90 transition-colors flex items-center">
+            <i class="fab fa-gitlab mr-2"></i> Github
+          </a>
+<a href="#leaderboard" class="bg-secondary text-white px-6 py-3 rounded-lg font-medium hover:bg-secondary/90 transition-colors flex items-center">
+            <i class="fab fa-gitlab mr-2"></i> 🏆 Leaderboard
+          </a>
+          <a href="#resources" class="bg-dark text-white px-6 py-3 rounded-lg font-medium hover:bg-dark/90 transition-colors flex items-center">
+            <i href="#resources" class="fas fa-download mr-2"></i> Dataset
+          </a>
+        </div>
+<!-- 插入论文图像 -->
+<section class="py-16">
+<!--   <div class="container mx-auto px-4 flex justify-center">
+    <img src="./MuCUE.pdf" alt="论文图示" class="w-full max-w-5xl mx-auto shadow-2xl rounded-lg">
+  </div> -->
+<!--   <div class="container mx-auto px-4 flex justify-center">
+  <embed src="./MuCUE.pdf" type="application/pdf" width="100%" height="600px" />
+  </div> -->
+    <img src="./MuCUE.png" alt="论文图示" class="w-full max-w-5xl mx-auto shadow-2xl rounded-lg">
+
+
+  <p class="text-center text-sm text-gray-500 mt-4">Overview of the MuCUE Dataset.</p>
+</section>
+        
+        <div class="grid grid-cols-1 md:grid-cols-3 gap-8 mt-12">
+          <div class="bg-white p-6 rounded-lg shadow-md card-hover">
+            <div class="w-12 h-12 bg-primary/10 rounded-full flex items-center justify-center mb-4">
+              <i class="fas fa-music text-primary text-xl"></i>
+            </div>
+            <h3 class="text-xl font-bold mb-2">Multi-dimensional Music Coverage</h3>
+            <p class="text-gray-600">Cross-genre & Multilingual Music Corpus</p>
+          </div>
+          
+          <div class="bg-white p-6 rounded-lg shadow-md card-hover">
+            <div class="w-12 h-12 bg-secondary/10 rounded-full flex items-center justify-center mb-4">
+              <i class="fas fa-brain text-secondary text-xl"></i>
+            </div>
+            <h3 class="text-xl font-bold mb-2">8 Music Understanding Tasks</h3>
+            <p class="text-gray-600">Covering key identification, pitch detection ....</p>
+          </div>
+          
+          <div class="bg-white p-6 rounded-lg shadow-md card-hover">
+            <div class="w-12 h-12 bg-dark/10 rounded-full flex items-center justify-center mb-4">
+              <i class="fas fa-trophy text-dark text-xl"></i>
+            </div>
+            <h3 class="text-xl font-bold mb-2">Authoritative Evaluation Framework</h3>
+            <p class="text-gray-600">Expert-validated and dedicated to addressing sophisticated challenges in music audio comprehension, with intentionally designed scalability for future enhancements.</p>
+          </div>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- 任务类型 -->
+  <section id="tasks" class="py-16 bg-white">
+    <div class="container mx-auto px-4">
+      <h2 class="text-3xl font-bold text-dark text-center mb-12">Core Tasks</h2>
+      <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-8">
+        <!-- 任务卡片1 -->
+        <div class="bg-white p-6 rounded-lg shadow-md card-hover">
+          <h3 class="text-xl font-bold mb-3 text-primary flex items-center">
+            <i class="fas fa-notes-medical mr-2"></i> Instrument Classification
+          </h3>
+          <p class="text-gray-600 mb-4">Instrument Recognition in Music</p>
+          <div class="border-t border-gray-200 pt-4">
+            <div class="flex items-center mb-2">
+              <span class="text-sm font-medium text-gray-500">Q:</span>
+              <p class="ml-2 text-gray-700">Please listen and name the instruments in this clip. </p>
+            </div>
+            <div class="flex items-center">
+              <span class="text-sm font-medium text-gray-500">Answer:</span>
+              <p class="ml-2 text-gray-700">A. guitar <br>B. horn <br>C. saxophone <br>D. hi-hat</p>
+            </div>
+          </div>
+        </div>
+        
+        <!-- 任务卡片2 -->
+        <div class="bg-white p-6 rounded-lg shadow-md card-hover">
+          <h3 class="text-xl font-bold mb-3 text-primary flex items-center">
+            <i class="fas fa-microphone mr-2"></i> Genre Classification
+          </h3>
+          <p class="text-gray-600 mb-4">Music Genre Classification (e.g., Rock, Classical, Jazz, Electronic)</p>
+          <div class="border-t border-gray-200 pt-4">
+            <div class="flex items-center mb-2">
+              <span class="text-sm font-medium text-gray-500">Q:</span>
+              <p class="ml-2 text-gray-700">What type of music is this track classified as?</p>
+            </div>
+            <div class="flex items-center">
+              <span class="text-sm font-medium text-gray-500">Answer:</span>
+              <p class="ml-2 text-gray-700">A. metal <br>B. disco <br>C. classical <br>D. country</p>
+            </div>
+          </div>
+        </div>
+        
+        <!-- 任务卡片3 -->
+        <div class="bg-white p-6 rounded-lg shadow-md card-hover">
+          <h3 class="text-xl font-bold mb-3 text-primary flex items-center">
+            <i class="fas fa-heart mr-2"></i> Mood/Theme Identification
+          </h3>
+          <p class="text-gray-600 mb-4">Mood/Theme Identification In Music</p>
+          <div class="border-t border-gray-200 pt-4">
+            <div class="flex items-center mb-2">
+              <span class="text-sm font-medium text-gray-500">Q:</span>
+              <p class="ml-2 text-gray-700">What’s the mood and thematic focus of this track? </p>
+            </div>
+            <div class="flex items-center">
+              <span class="text-sm font-medium text-gray-500">Answer:</span>
+              <p class="ml-2 text-gray-700">A. action <br>B. dark <br>C. upbeat <br>D. deep</p>
+            </div>
+          </div>
+        </div>
+        
+        <!-- 任务卡片4 -->
+        <div class="bg-white p-6 rounded-lg shadow-md card-hover">
+          <h3 class="text-xl font-bold mb-3 text-primary flex items-center">
+            <i class="fas fa-clock mr-2"></i> Lyrical Reasoning
+          </h3>
+          <p class="text-gray-600 mb-4">Lyric Analysis (The process of interpreting a song's underlying story, emotional drive, or deeper meaning by analyzing its word choice, flow, and hidden metaphors)</p>
+          <div class="border-t border-gray-200 pt-4">
+            <div class="flex items-center mb-2">
+              <span class="text-sm font-medium text-gray-500">Q:</span>
+              <p class="ml-2 text-gray-700">What is the main message of the lyrics? </p>
+            </div>
+            <div class="flex items-center">
+              <span class="text-sm font-medium text-gray-500">Answer:</span>
+              <p class="ml-2 text-gray-700">A. To give up when things get tough <br>B. To rely on others for happiness <br>C. To live freely and embrace one's journey <br>D. To seek revenge on haters</p>
+            </div>
+          </div>
+        </div>
+        
+        <!-- 任务卡片5 -->
+        <div class="bg-white p-6 rounded-lg shadow-md card-hover">
+          <h3 class="text-xl font-bold mb-3 text-primary flex items-center">
+            <i class="fas fa-genre-music mr-2"></i> Comprehensive
+          </h3>
+          <p class="text-gray-600 mb-4">Comprehensive Music Audio Understanding</p>
+          <div class="border-t border-gray-200 pt-4">
+            <div class="flex items-center mb-2">
+              <span class="text-sm font-medium text-gray-500">Q:</span>
+              <p class="ml-2 text-gray-700">What is the primary characteristic of the bass line in the song? </p>
+            </div>
+            <div class="flex items-center">
+              <span class="text-sm font-medium text-gray-500">Answer:</span>
+              <p class="ml-2 text-gray-700">A. Melodic and flowing <br>B. Percussive and rhythmic <br>C. Distorted and chaotic <br>D. Absent in the excerpt</p>
+            </div>
+          </div>
+        </div>
+        
+        <!-- 任务卡片6 -->
+        <div class="bg-white p-6 rounded-lg shadow-md card-hover">
+          <h3 class="text-xl font-bold mb-3 text-primary flex items-center">
+            <i class="fas fa-quote-right mr-2"></i> Chord Identification
+          </h3>
+          <p class="text-gray-600 mb-4">A chord – the fundamental harmonic unit formed by simultaneous pitches – plays critical roles in music analysis, AI composition, and MIR systems</p>
+          <div class="border-t border-gray-200 pt-4">
+            <div class="flex items-center mb-2">
+              <span class="text-sm font-medium text-gray-500">Q:</span>
+              <p class="ml-2 text-gray-700">I need to know the chord being used in this guitar section - can you identify it? </p>
+            </div>
+            <div class="flex items-center">
+              <span class="text-sm font-medium text-gray-500">Answer:</span>
+              <p class="ml-2 text-gray-700">A. D#:maj7/1 <br>B. A#:maj(#11)/1 <br>C. F#:min9(*5)/2 <br>D. D:min9(*5)/1</p>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- 评测标准 -->
+  <section id="evaluation" class="py-16 bg-gray-50">
+    <div class="container mx-auto px-4">
+      <h2 class="text-3xl font-bold text-dark text-center mb-12">Evaluation And Dataset Viewer</h2>
+      <div class="grid grid-cols-1 md:grid-cols-2 gap-12 items-center">
+        <div>
+          <h3 class="text-2xl font-bold mb-6 text-dark">Dataset Viewer</h3>
+          <ul class="space-y-4">
+            <li class="flex items-start">
+              <i class="fas fa-check-circle text-secondary mt-1 mr-3"></i>
+              <div>
+                <h4 class="font-medium text-gray-800">Dataset Scale Specifications</h4>
+                <p class="text-gray-600">10,000+music samples，Total duration exceeds 100 hours, with average clip length of 10 seconds-10 minutes</p>
+              </div>
+            </li>
+            <li class="flex items-start">
+              <i class="fas fa-check-circle text-secondary mt-1 mr-3"></i>
+              <div>
+                <h4 class="font-medium text-gray-800">Audio Quality</h4>
+                <p class="text-gray-600">44.1kHz sampling rate, 16-bit depth</p>
+              </div>
+            </li>
+          </ul>
+          
+          <h3 class="text-2xl font-bold mt-12 mb-6 text-dark">Evaluation Metric System</h3>
+          <table class="w-full border-collapse">
+            <thead>
+              <tr class="bg-gray-100">
+                <th class="py-3 px-4 text-left border">Metric</th>
+                <th class="py-3 px-4 text-left border">Tasks</th>
+                <th class="py-3 px-4 text-left border">Computation</th>
+              </tr>
+            </thead>
+            <tbody>
+              <tr class="border-b">
+                <td class="py-3 px-4">Accuracy</td>
+		<td class="py-3 px-4">All</td>
+		<td class="py-3 px-4">True samples / All samples</td>
+              </tr>
+            </tbody>
+          </table>
+        </div>
+        
+        <div class="bg-white p-6 rounded-lg shadow-lg">
+          <h3 class="text-2xl font-bold mb-6 text-dark">Audio Samples with Annotation Demo</h3>
+          <div class="space-y-6">
+            <div>
+              <h4 class="font-medium mb-2 flex items-center">
+                <i class="fas fa-headphones text-primary mr-2"></i> Music Segments
+              </h4>
+              <audio controls src="https://m8.music.126.net/20930727205908/69272c10d98208b3a6d79dfa1dbaaee9/ymusic/obj/w5zDlMODwrDDiGjCn8Ky/61081823724/a9c5/1063/357c/bc10b17b2d77e21e3fec742eb9dd06c3.mp3?infoId=2619463" class="w-full mb-4"></audio>
+              <div class="bg-blue-50 p-4 rounded-lg">
+                <p class="font-medium text-primary mb-2">Annotation:</p>
+                <p class="text-gray-700"><i class="fas fa-music mr-1"></i> tonal center: B major</p>
+              </div>
+            </div>
+            
+            <div>
+              <h4 class="font-medium mb-2 flex items-center">
+                <i class="fas fa-headphones text-primary mr-2"></i> Popular English Music Segments
+              </h4>
+              <audio controls src="https://m7.music.126.net/20930727210018/6b2ba1ce972135c6c4c1a01501f0d888/ymusic/obj/w5zDlMODwrDDiGjCn8Ky/61081841729/6174/c075/ab2c/f07df4cac162c3d837b49029c46add04.mp3?infoId=2618476" class="w-full mb-4"></audio>
+              <div class="bg-blue-50 p-4 rounded-lg">
+                <p class="font-medium text-primary mb-2">Annotation:</p>
+                <p class="text-gray-700"><i class="fas fa-music mr-1"></i> primary characteristic of the bass line: Percussive and rhythmic</p>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+        <div class="grid grid-cols-1 md:grid-cols-2 gap-12 items-center">
+        <h2 class="text-3xl font-bold text-dark text-center mb-12">Datasets Overview</h2>
+          <div class="overflow-x-auto">
+            <table class="w-full border-collapse">
+              <thead>
+                <tr class="bg-gray-100">
+                  <th class="py-3 px-4 border text-left">Tasks</th>
+                  <th class="py-3 px-4 border text-left">Datasets</th>
+                </tr>
+              </thead>
+              <tbody>
+                <tr class="border-b hover:bg-gray-50 transition-colors">
+                  <td class="py-3 px-4 border">Key Identification</td>
+                  <td class="py-3 px-4 border">gs_key, gs_key_30s</td>
+                </tr>
+                <tr class="border-b hover:bg-gray-50 transition-colors">
+                  <td class="py-3 px-4 border">Pitch Identification</td>
+                  <td class="py-3 px-4 border">nsyn_pitch</td>
+                </tr>
+                <tr class="border-b hover:bg-gray-50 transition-colors">
+                  <td class="py-3 px-4 border">Chord Identification</td>
+                  <td class="py-3 px-4 border">guitarset</td>
+                </tr>
+                <tr class="border-b hover:bg-gray-50 transition-colors">
+                  <td class="py-3 px-4 border">Instrument Classification</td>
+                  <td class="py-3 px-4 border">ins_cls, nsyn_ins, mtg_ins</td>
+                </tr>
+                <tr class="border-b hover:bg-gray-50 transition-colors">
+                  <td class="py-3 px-4 border">Genre Classification</td>
+                  <td class="py-3 px-4 border">gtzan, fma-small, fma-medium, mtg_genre</td>
+                </tr>
+                <tr class="border-b hover:bg-gray-50 transition-colors">
+                  <td class="py-3 px-4 border">Mood/Theme Identification</td>
+                  <td class="py-3 px-4 border">mtg_mood</td>
+                </tr>
+                <tr class="border-b hover:bg-gray-50 transition-colors">
+                  <td class="py-3 px-4 border">Lyrical Reasoning</td>
+                  <td class="py-3 px-4 border">ly_m163</td>
+                </tr>
+                <tr class="hover:bg-gray-50 transition-colors">
+                  <td class="py-3 px-4 border">Comprehensive</td>
+                  <td class="py-3 px-4 border">mmau-music, tat, mucho, mcaps, mqa_m163</td>
+                </tr>
+              </tbody>
+            </table>
+          </div>
+      </div>
+    </div>
+  </section>
+
+
+  <!-- Leaderboard -->
+  <section id="leaderboard" class="py-16 bg-white">
+    <div class="container mx-auto px-4">
+      <h2 class="text-3xl font-bold text-dark text-center mb-8">Leaderboard</h2>
+      <p class="text-center text-gray-600 max-w-2xl mx-auto mb-12">Below are the average performance metrics of each model on the MMMUBench test set, ranked in descending order by overall score.</p>
+
+<div class="overflow-x-auto mt-12">
+  <table class="w-full border-collapse">
+    <thead>
+      <tr class="bg-gray-100">
+        <th class="py-3 px-4 border text-left">Datasets</th>
+        <th class="py-3 px-4 border text-center">Gemini-2.0-flash</th>
+        <th class="py-3 px-4 border text-center">Qwen2.5-Omni</th>
+        <th class="py-3 px-4 border text-center">Kimi-Audio</th>
+        <th class="py-3 px-4 border text-center">Qwen2-Audio</th>
+        <th class="py-3 px-4 border text-center">Ours</th>
+      </tr>
+    </thead>
+    <tbody>
+      <tr><td class="py-3 px-4 border">gs key 30s</td><td class="text-center">33.6</td><td class="text-center">23.8</td><td class="text-center">26.0</td><td class="text-center">18.2</td><td class="text-center text-green-600">50.4</td></tr>
+      <tr><td class="py-3 px-4 border">gtzan key</td><td class="text-center">33.7</td><td class="text-center">28.7</td><td class="text-center">28.3</td><td class="text-center">22.0</td><td class="text-center text-green-600">34.1</td></tr>
+      <tr><td class="py-3 px-4 border">nsyn pitch</td><td class="text-center">30.8</td><td class="text-center">36.8</td><td class="text-center">31.8</td><td class="text-center">31.2</td><td class="text-center text-green-600">77.2</td></tr>
+      <tr><td class="py-3 px-4 border">guitarset</td><td class="text-center">25.2</td><td class="text-center">13.2</td><td class="text-center">27.2</td><td class="text-center">19.2</td><td class="text-center text-green-600">58.8</td></tr>
+      <tr><td class="py-3 px-4 border">ballroom tempo</td><td class="text-center">31.7</td><td class="text-center">28.9</td><td class="text-center">24.4</td><td class="text-center">31.1</td><td class="text-center">29.4</td></tr>
+      <tr><td class="py-3 px-4 border">gtzan tempo</td><td class="text-center">41.3</td><td class="text-center">32.4</td><td class="text-center">22.9</td><td class="text-center">27.1</td><td class="text-center">40.7</td></tr>
+      <tr><td class="py-3 px-4 border">ins cls</td><td class="text-center">26.0</td><td class="text-center">66.8</td><td class="text-center">79.4</td><td class="text-center">39.8</td><td class="text-center text-green-600">91.2</td></tr>
+      <tr><td class="py-3 px-4 border">nsyn ins</td><td class="text-center">32.4</td><td class="text-center">40.6</td><td class="text-center">44.4</td><td class="text-center">22.4</td><td class="text-center text-green-600">74.0</td></tr>
+      <tr><td class="py-3 px-4 border">mtg ins</td><td class="text-center">19.8</td><td class="text-center">55.8</td><td class="text-center">51.2</td><td class="text-center">24.0</td><td class="text-center text-green-600">68.6</td></tr>
+      <tr><td class="py-3 px-4 border">gtzan</td><td class="text-center">72.2</td><td class="text-center">88.6</td><td class="text-center">77.8</td><td class="text-center">83.9</td><td class="text-center text-green-600">81.3</td></tr>
+      <tr><td class="py-3 px-4 border">fma-small</td><td class="text-center">63.4</td><td class="text-center">66.2</td><td class="text-center">55.8</td><td class="text-center">65.6</td><td class="text-center text-green-600">72.4</td></tr>
+      <tr><td class="py-3 px-4 border">fma-medium</td><td class="text-center">62.8</td><td class="text-center">78.0</td><td class="text-center">59.8</td><td class="text-center">77.0</td><td class="text-center text-green-600">85.2</td></tr>
+      <tr><td class="py-3 px-4 border">mtg genre</td><td class="text-center">57.2</td><td class="text-center">61.6</td><td class="text-center">55.8</td><td class="text-center">46.4</td><td class="text-center text-green-600">81.4</td></tr>
+      <tr><td class="py-3 px-4 border">ballroom genres</td><td class="text-center">57.0</td><td class="text-center">45.8</td><td class="text-center">44.0</td><td class="text-center">35.2</td><td class="text-center">52.4</td></tr>
+      <tr><td class="py-3 px-4 border">mtg mood</td><td class="text-center">38.2</td><td class="text-center">43.4</td><td class="text-center">39.4</td><td class="text-center">29.2</td><td class="text-center text-green-600">52.8</td></tr>
+      <tr><td class="py-3 px-4 border">md4q</td><td class="text-center">71.9</td><td class="text-center">47.6</td><td class="text-center">61.3</td><td class="text-center">57.8</td><td class="text-center">65.9</td></tr>
+      <tr><td class="py-3 px-4 border">salami segd</td><td class="text-center">40.6</td><td class="text-center">18.6</td><td class="text-center">27.2</td><td class="text-center">19.4</td><td class="text-center text-green-600">64.8</td></tr>
+      <tr><td class="py-3 px-4 border">salami pred</td><td class="text-center">37.6</td><td class="text-center">32.2</td><td class="text-center">34.6</td><td class="text-center">31.2</td><td class="text-center text-green-600">64.8</td></tr>
+      <tr><td class="py-3 px-4 border">salami cnt</td><td class="text-center">49.8</td><td class="text-center">36.8</td><td class="text-center">37.8</td><td class="text-center">30.2</td><td class="text-center">43.2</td></tr>
+      <tr><td class="py-3 px-4 border">salami overall</td><td class="text-center">62.1</td><td class="text-center">55.8</td><td class="text-center">45.3</td><td class="text-center">42.6</td><td class="text-center">48.7</td></tr>
+      <tr><td class="py-3 px-4 border">lyr</td><td class="text-center">88.2</td><td class="text-center">87.4</td><td class="text-center">87.0</td><td class="text-center">60.0</td><td class="text-center text-green-600">90.8</td></tr>
+      <tr><td class="py-3 px-4 border">mmau-music</td><td class="text-center">67.1</td><td class="text-center">63.8</td><td class="text-center">66.2</td><td class="text-center">57.8</td><td class="text-center">66.5</td></tr>
+      <tr><td class="py-3 px-4 border">tat</td><td class="text-center">61.2</td><td class="text-center">59.4</td><td class="text-center">54.0</td><td class="text-center">61.4</td><td class="text-center text-green-600">80.6</td></tr>
+      <tr><td class="py-3 px-4 border">mucho</td><td class="text-center">69.6</td><td class="text-center">66.5</td><td class="text-center">69.7</td><td class="text-center">66.7</td><td class="text-center">63.9</td></tr>
+      <tr><td class="py-3 px-4 border">mcaps</td><td class="text-center">62.2</td><td class="text-center">65.6</td><td class="text-center">68.0</td><td class="text-center">74.0</td><td class="text-center text-green-600">80.0</td></tr>
+      <tr><td class="py-3 px-4 border">mqa</td><td class="text-center">58.0</td><td class="text-center">76.0</td><td class="text-center">79.0</td><td class="text-center">60.8</td><td class="text-center text-green-600">88.4</td></tr>
+      <!-- 平均得分 -->
+      <tr class="bg-gray-100 font-semibold">
+        <td class="py-3 px-4 border">Avg</td>
+        <td class="text-center">49.8</td>
+        <td class="text-center">50.8</td>
+        <td class="text-center">49.9</td>
+        <td class="text-center">43.6</td>
+        <td class="text-center text-green-600">65.7</td>
+      </tr>
+    </tbody>
+  </table>
+</div>
+          
+ <div class="mt-12 grid grid-cols-1 md:grid-cols-2 gap-8">
+      </div>
+    </div>
+  </section>
+
+  <!-- 资源下载 -->
+  <section id="resources" class="py-16 bg-gradient-to-b from-blue-50 to-white">
+    <div class="container mx-auto px-4">
+      <h2 class="text-3xl font-bold text-dark text-center mb-12">Resources and How to Participate</h2>
+      <div class="grid grid-cols-1 md:grid-cols-3 gap-8 max-w-5xl mx-auto">
+        <div class="bg-white p-6 rounded-lg shadow-md card-hover">
+          <div class="w-16 h-16 bg-primary/10 rounded-full flex items-center justify-center mb-4 mx-auto">
+            <i class="fas fa-file-pdf text-primary text-2xl"></i>
+          </div>
+          <h3 class="text-xl font-bold text-center mb-2">Paper</h3>
+          <ul class="space-y-2 text-center">
+            <li><a href="#" class="text-primary hover:underline">MuCUE Bench - Music Comprehensive Understanding Evaluation</a></li>
+          </ul>
+        </div>
+        
+        <div class="bg-white p-6 rounded-lg shadow-md card-hover">
+          <div class="w-16 h-16 bg-secondary/10 rounded-full flex items-center justify-center mb-4 mx-auto">
+            <i class="fas fa-database text-secondary text-2xl"></i>
+          </div>
+          <h3 class="text-xl font-bold text-center mb-2">Datasets Download</h3>
+          <ul class="space-y-2 text-center">
+<li><a href="#" class="text-primary hover:underline">Music Datasets</a></li>
+          </ul>
+        </div>
+        
+        <div class="bg-white p-6 rounded-lg shadow-md card-hover">
+          <div class="w-16 h-16 bg-dark/10 rounded-full flex items-center justify-center mb-4 mx-auto">
+            <i class="fas fa-code text-dark text-2xl"></i>
+          </div>
+          <h3 class="text-xl font-bold text-center mb-2">Code</h3>
+          <ul class="space-y-2 text-center">
+            <li><a href="https://g.hz.netease.com/jiangyi09/mu_eval" class="text-primary hover:underline">GitHub Repo</a></li>
+            <li><a href="#" class="text-primary hover:underline">Evaluate (Python) <span class="text-sm text-gray-500"></span></a></li>
+            <li><a href="#" class="text-primary hover:underline">Leaderboard Submission Tool <span class="text-sm text-gray-500"></span></a></li>
+          </ul>
+        </div>
+      </div>
+      
+      <div class="mt-16 text-center">
+        <h3 class="text-2xl font-bold mb-6 text-dark">Contribute Guidelines</h3>
+        <p class="text-gray-600 max-w-2xl mx-auto mb-8">We welcome researchers from academia and industry to contribute to the improvement of the MMMUBench dataset and model optimization. Contribution methods include:</p>
+        <div class="flex flex-wrap justify-center gap-4 mt-8">
+          <a href="#" class="bg-primary text-white px-6 py-3 rounded-lg font-medium hover:bg-primary/90 transition-colors flex items-center">
+            <i class="fas fa-upload mr-2"></i> Submit Model Results
+          </a>
+          <a href="#" class="bg-secondary text-white px-6 py-3 rounded-lg font-medium hover:bg-secondary/90 transition-colors flex items-center">
+            <i class="fas fa-comment-dots mr-2"></i> Report Issues
+          </a>
+          <a href="#" class="bg-dark text-white px-6 py-3 rounded-lg font-medium hover:bg-dark/90 transition-colors flex items-center">
+            <i class="fas fa-plus mr-2"></i> Contribute Data
+          </a>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- 页脚 -->
+  <footer class="bg-dark text-white py-12">
+    <div class="container mx-auto px-4">
+      <div class="grid grid-cols-1 md:grid-cols-4 gap-8">
+        <div>
+          <h3 class="text-xl font-bold mb-4">MuCUE Bench</h3>
+          <p class="text-gray-400">MuCUE Bench - Music Comprehensive Understanding Evaluation</p>
+        </div>
+        <div>
+          <h4 class="font-bold mb-4">Quick Links</h4>
+          <ul class="space-y-2 text-gray-400">
+            <li><a href="#intro" class="hover:text-white transition-colors">Dataset Introduction</a></li>
+            <li><a href="#tasks" class="hover:text-white transition-colors">Task Types</a></li>
+            <li><a href="#evaluation" class="hover:text-white transition-colors">Evaluation Criteria</a></li>
+            <li><a href="#leaderboard" class="hover:text-white transition-colors">Leaderboard</a></li>
+            <li><a href="#resources" class="hover:text-white transition-colors">Resource Downloads</a></li>
+          </ul>
+        </div>
+        <div>
+          <h4 class="font-bold mb-4">Contact Us</h4>
+          <ul class="space-y-2 text-gray-400">
+<!--             <li class="flex items-center"><i class="fas fa-envelope mr-2"></i> contact@mucuebench.com</li> -->
+            <li class="flex items-center"><i class="fab fa-github mr-2"></i> GitHub: MuCUE Bench</li>
+<!--             <li class="flex items-center"><i class="fab fa-twitter mr-2"></i> @MuCUE Bench</li> -->
+          </ul>
+        </div>
+        <div>
+          <h4 class="font-bold mb-4">Citation</h4>
+          <p class="text-gray-400 text-sm">If you use this dataset, please cite the following paper:</p>
+          <p class="text-gray-300 text-sm mt-2">Advancing the Foundation Model for Music Understanding<br>
+          <span class="text-gray-400">Authors:, 2025</span></p>
+        </div>
+      </div>
+      <div class="border-t border-gray-700 mt-8 pt-8 text-center text-gray-500 text-sm">
+        <p>© 2025 MuCUEBench. All Rights Reserved.</p>
+      </div>
+    </div>
+  </footer>
+
+  <script>
+    // 移动端菜单切换
+    document.getElementById('menu-toggle').addEventListener('click', function() {
+      const menu = document.getElementById('mobile-menu');
+      menu.classList.toggle('hidden');
+    });
+    
+    // 图表初始化
+    document.addEventListener('DOMContentLoaded', function() {
+      // 任务准确率图表
+      const taskAccuracyCtx = document.getElementById('taskAccuracyChart').getContext('2d');
+      new Chart(taskAccuracyCtx, {
+        type: 'bar',
+        data: {
+          labels: ['和弦分析', '乐器识别', '情感分析', '类型分类', '节奏分析', '知识问答'],
+          datasets: [{
+            label: '平均准确率',
+            data: [81.2, 85.7, 76.5, 83.3, 79.1, 72.4],
+            backgroundColor: [
+              'rgba(67, 97, 238, 0.7)',
+              'rgba(67, 97, 238, 0.8)',
+              'rgba(67, 97, 238, 0.6)',
+              'rgba(67, 97, 238, 0.75)',
+              'rgba(67, 97, 238, 0.65)',
+              'rgba(67, 97, 238, 0.55)'
+            ],
+            borderColor: 'rgba(67, 97, 238, 1)',
+            borderWidth: 1
+          }]
+        },
+        options: {
+          responsive: true,
+          scales: {
+            y: {
+              beginAtZero: true,
+              max: 100,
+              ticks: {
+                callback: function(value) {
+                  return value + '%';
+                }
+              }
+            }
+          }
+        }
+      });
+      
+      // 错误分布图表
+      const errorDistributionCtx = document.getElementById('errorDistributionChart').getContext('2d');
+      new Chart(errorDistributionCtx, {
+        type: 'doughnut',
+        data: {
+          labels: ['和弦识别错误', '乐器混淆', '情感误判', '类型错分', '其他'],
+          datasets: [{
+            data: [28, 25, 22, 18, 7],
+            backgroundColor: [
+              'rgba(67, 97, 238, 0.8)',
+              'rgba(63, 55, 201, 0.8)',
+              'rgba(72, 149, 239, 0.8)',
+              'rgba(16, 185, 129, 0.8)',
+              'rgba(43, 45, 66, 0.8)'
+            ],
+            borderWidth: 1
+          }]
+        },
+        options: {
+          responsive: true,
+          plugins: {
+            legend: {
+              position: 'right'
+            }
+          }
+        }
+      });
+    });
+  </script>
+</body>
+</html>
