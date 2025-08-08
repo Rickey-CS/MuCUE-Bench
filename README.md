@@ -1,5 +1,10 @@
 # MuCUE-Bench
 
+<div align="center">
+    <a href="https://arxiv.org/abs/2508.01178"><img src="https://img.shields.io/badge/arXiv-2508.01178-b31b1b" alt="version"></a>
+    <a href="https://huggingface.co/datasets/Yi3852/MuCUE"><img src="https://img.shields.io/badge/HuggingFace-Data-ffc107" alt="version"></a>
+</div>
+
 ![MuCUE](./MuCUE.png)
 ![Data Distribution](./data_analyse.png)
 
