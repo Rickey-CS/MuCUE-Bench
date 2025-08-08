@@ -120,3 +120,16 @@ units: Acc%
 | md4q            | 71.9   | 47.6            | 61.3                   | 57.8                    | 65.9  |
 | mtg_ins         | 19.8   | 55.8            | 51.2                   | 24.0                    | 68.6  |
 | AVG             | 49.8   | 50.8            | 49.9                   | 43.6                    | 65.7  |
+
+## Citation
+
+```bibtex
+@misc{jiang2025advancingfoundationmodelmusic,
+      title={Advancing the Foundation Model for Music Understanding}, 
+      author={Yi Jiang and Wei Wang and Xianwen Guo and Huiyun Liu and Hanrui Wang and Youri Xu and Haoqi Gu and Zhongqian Xie and Chuanjiang Luo},
+      year={2025},
+      eprint={2508.01178},
+      archivePrefix={arXiv},
+      primaryClass={cs.SD},
+      url={https://arxiv.org/abs/2508.01178}, 
+}
