@@ -4,6 +4,9 @@
     <a href="https://arxiv.org/abs/2508.01178"><img src="https://img.shields.io/badge/arXiv-2508.01178-b31b1b" alt="version"></a>
     <a href="https://huggingface.co/datasets/Yi3852/MuCUE"><img src="https://img.shields.io/badge/HuggingFace-Data-ffc107" alt="version"></a>
 </div>
+<p align="center">
+          🤗 <a href="https://huggingface.co/collections/Yi3852/mufun-68943d4ad905f4e23e35b86d">Hugging Face</a>&nbsp&nbsp | &nbsp&nbsp🤖 <a href="https://huggingface.co/datasets/Yi3852/MuCUE">DataSets</a>&nbsp&nbsp | &nbsp&nbsp 📑 <a href="https://arxiv.org/abs/2508.01178">Paper</a> &nbsp&nbsp | &nbsp&nbsp💜 <a href="https://rickey-cs.github.io/MuCUE-Bench/"><b>BenchMark</b></a>&nbsp&nbsp
+<br>
 
 ![MuCUE](./MuCUE.png)
 ![Data Distribution](./data_analyse.png)
