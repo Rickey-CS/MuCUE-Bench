@@ -18,6 +18,35 @@
 | lyrical reasoning         | ly_m163                                                  | 206.0         |
 | comprehensive             | mmau-music, tat, mucho, mcaps, mqa_m163                  | 67.3          |
 
+## Evaluation Instruction
+
+note: below scripts will automatically download the whole dataset from huggingface(around 25GB)
+
+```bash
+# 1. generate response on all eval sets for a model, stored as jsons in outputs folder
+# for different models see below
+# the choice for model name is arbitrary, which will only affect the output json file name
+# you can directly modify the value of data_names in gen_answers function(scripts/eval_single.py) to generate answers for only the desired eval sets
+
+python scripts/api_model.py --model model_name_you_prefer
+# for Kimi-Audio go to https://github.com/MoonshotAI/Kimi-Audio and follow the installation instructions there
+python scripts/kimia.py --model model_name_you_prefer
+
+python scripts/mufun.py --model model_name_you_prefer
+# for vllm models before running you have to start a server, for instance: 
+# vllm serve Qwen/Qwen2.5-Omni-7B  --trust_remote_code --dtype bfloat16
+# vllm serve Qwen/Qwen2-Audio-7B-Instruct  --trust_remote_code --dtype bfloat16 --chat-template-content-format string
+python scripts/vllm_model.py --model model_name_you_prefer
+
+# 2. extract the choices(A, B, C, D) from the response jsons and store back, then calculate the accuracy for each eval sets
+# extration requires a text LLM, before running this step, start a server: vllm serve Qwen/Qwen3-8B --port 8008
+# you can also modify the code to use other local or api models
+# see extract_single.py, eval_single.py for single-task evaluation
+python scripts/extract_eval.py --model model_name_you_prefer
+
+# see scripts/table_acc.ipynb to get the accuracy table for different models you have evaluated
+```
+
 ## Metadata
 
 total samples for evaluation: 16463
